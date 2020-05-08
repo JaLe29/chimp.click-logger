@@ -88,7 +88,7 @@ exports.default = (function (apiKey, config) {
             console.log({ data: data, type: type });
             return;
         }
-        buffer.push({ data: data, type: type });
+        buffer.push({ data: data, type: type, date: new Date().toJSON() });
         if (buffer.length > bufferSize)
             send();
     };

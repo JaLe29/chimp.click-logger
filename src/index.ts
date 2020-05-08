@@ -19,7 +19,7 @@ export default (apiKey: string, config: IConfig = DEFAULT_CONFIG) => {
 		debug = DEFAULT_CONFIG.debug,
 	} = config
 
-	let buffer: { data: any, type: string }[] = []
+	let buffer: { data: any, type: string, date: string }[] = []
 
 	const send = async () => {
 		if (buffer.length === 0) return
@@ -45,7 +45,7 @@ export default (apiKey: string, config: IConfig = DEFAULT_CONFIG) => {
 			console.log({ data, type })
 			return
 		}
-		buffer.push({ data, type })
+		buffer.push({ data, type, date: new Date().toJSON() })
 
 		if (buffer.length > bufferSize) send()
 	}
