@@ -50,10 +50,11 @@ var request_promise_1 = __importDefault(require("request-promise"));
 var DEFAULT_CONFIG = {
     bufferSize: 20,
     pollIntervalMs: 1000 * 60,
+    debug: false,
 };
 exports.default = (function (apiKey, config) {
     if (config === void 0) { config = DEFAULT_CONFIG; }
-    var _a = config.bufferSize, bufferSize = _a === void 0 ? DEFAULT_CONFIG.bufferSize : _a, _b = config.pollIntervalMs, pollIntervalMs = _b === void 0 ? DEFAULT_CONFIG.pollIntervalMs : _b;
+    var _a = config.bufferSize, bufferSize = _a === void 0 ? DEFAULT_CONFIG.bufferSize : _a, _b = config.pollIntervalMs, pollIntervalMs = _b === void 0 ? DEFAULT_CONFIG.pollIntervalMs : _b, _c = config.debug, debug = _c === void 0 ? DEFAULT_CONFIG.debug : _c;
     var buffer = [];
     var send = function () { return __awaiter(void 0, void 0, void 0, function () {
         var bufferToSend, options;
@@ -76,7 +77,6 @@ exports.default = (function (apiKey, config) {
                     return [4 /*yield*/, request_promise_1.default(options)];
                 case 1:
                     _a.sent();
-                    console.log('ok');
                     return [2 /*return*/];
             }
         });
@@ -84,6 +84,10 @@ exports.default = (function (apiKey, config) {
     // @ts-ignore
     global.log = function (data, type) {
         if (type === void 0) { type = 'info'; }
+        if (debug) {
+            console.log({ data: data, type: type });
+            return;
+        }
         buffer.push({ data: data, type: type });
         if (buffer.length > bufferSize)
             send();
